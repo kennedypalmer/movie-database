@@ -1,0 +1,86 @@
+{
+ "Movies": [
+  {
+   "Id": "21aa6e04-16ec-48fc-8c4a-ba9abf176ec8",
+   "Title": "Parasite",
+   "Genre": [
+    "Black comedy",
+    "Thriller"
+   ],
+   "Description": "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
+   "Director": "Bong Joon-ho",
+   "Actors": [
+    "Song Kang-ho",
+    "Lee Sun-kyun",
+    "Cho Yeo-jeong",
+    "Choi Woo-shik"
+   ],
+   "Rating": 8.6
+  },
+  {
+   "Id": "4ec6311a-ec83-4388-a29f-ef807d8cdbbd",
+   "Title": "La Casa Lobo",
+   "Genre": [
+    "Horror",
+    "Stop-Motion"
+   ],
+   "Description": "María, a young woman finds refuge in a house in the south of Chile after escaping from a sect of German religious fanatics. She is welcomed into the home by two pigs, the only inhabitants of the place. Like in a dream, the universe of the house reacts to Maria’s feelings. The animals transform slowly into humans and the house becomes a nightmarish world. Inspired by the actual case of Colonia Dignidad, “The Wolf House” masquerades as an animated fairy tale produced by the leader of the sect in order to indoctrinate its followers.",
+   "Director": "Cristobal León",
+   "Actors": [
+    "Amalia Kassai",
+    "Rainer Krause"
+   ],
+   "Rating": 7.6
+  },
+  {
+   "Id": "0944a3ab-f92c-4a96-ac9a-b7798857b949",
+   "Title": "Arrival",
+   "Genre": [
+    "Sci-Fi",
+    "Drama"
+   ],
+   "Description": "Linguistics professor Louise Banks leads an elite team of investigators when gigantic spaceships touchdown in 12 locations around the world. As nations teeter on the verge of global war, Banks and her crew must race against time to find a way to communicate with the extraterrestrial visitors. Hoping to unravel the mystery, she takes a chance that could threaten her life and quite possibly all of mankind.",
+   "Director": "Denis Villeneuve",
+   "Actors": [
+    "Amy Adams",
+    "Jeremy Renner",
+    "Forest Whitaker",
+    "Michael Stuhlbarg"
+   ],
+   "Rating": 9.8
+  },
+  {
+   "Id": "09820ff3-cdb4-450c-aa38-191dd843aef5",
+   "Title": "The Departed",
+   "Genre": [
+    "Drama",
+    "Action"
+   ],
+   "Description": "An undercover cop and a mole in the police attempt to identify each other while infiltrating an Irish gang in South Boston.",
+   "Director": "",
+   "Actors": [
+    "Leonardo Dicaprio",
+    "Matt Damon",
+    "Jack Nicholson",
+    "Mark Wahlberg"
+   ],
+   "Rating": 8.5
+  },
+  {
+   "Id": "68152156-c0f8-47ea-ad4f-33c8ba2bbd12",
+   "Title": "Friday",
+   "Genre": [
+    "Comedy"
+   ],
+   "Description": "It is Friday and Craig Jones is unemployed, having been fired yesterday. This has lead to trouble with Smokey's supplier, Big Worm, who now wants his money, or his product back, or Smokey is a dead man. Then there's Deebo, the local bully, plus Craig's jealous, psychotic girlfriend, Joi, and Debbie, the neighbor Craig has a crush on. A lot can happen while lounging around your house on a Friday",
+   "Director": "F.Gary Gray",
+   "Actors": [
+    "Ice Cube",
+    "Christ Tucker",
+    "Nia Long",
+    "Bernie Mac"
+   ],
+   "Rating": 7.3
+  }
+ ]
+}
