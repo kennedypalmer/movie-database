@@ -31,7 +31,7 @@ func (f TheFile) NewMovie(movie entities.Movie)  error {
 
     movie.GetId()
 
-   output, err := ioutil.ReadFile(f.Filename)
+   file, err := ioutil.ReadFile(f.Filename)
    if err != nil {
        return err 
    }
@@ -39,7 +39,7 @@ func (f TheFile) NewMovie(movie entities.Movie)  error {
 
     //Unmarshaling the movie in json form from our request into our GoMovie database 
     
-    err = json.Unmarshal(output, &movieDbSlice)
+    err = json.Unmarshal(file, &movieDbSlice)
     if err != nil {
         return err 
     }
@@ -52,12 +52,12 @@ func (f TheFile) NewMovie(movie entities.Movie)  error {
 
 
 	//Insert functionality to marshal back into json file 
-    input, err := json.MarshalIndent(movieDbSlice, "", " ")
+    ourNewMovie, err := json.MarshalIndent(movieDbSlice, "", " ")
     if err != nil {
         return err
     }
 
-    err = ioutil.WriteFile(f.Filename, input, 0644)
+    err = ioutil.WriteFile(f.Filename, ourNewMovie, 0644)
     if err != nil {
         return err
     }
@@ -98,8 +98,8 @@ func (f TheFile) FindById(id string) (entities.Movie, error) {
 
 
 //Ranging over all of the movies and finding the id that matches what is passed in 
-//If the id in our db matches the id passed in, we iterate over it with continue
-//Our loop defaults to setting the value of our deleteResult db to the movies that were iterated over- ignoring the movie w/ the given id 
+//If the id in our db matches the id passed in, we take all of the movies before and all of the movies after
+//To create a new slice of movies
 
 func (f TheFile) DeleteById(id string) error {
     file, err := ioutil.ReadFile(f.Filename)
@@ -115,48 +115,51 @@ func (f TheFile) DeleteById(id string) error {
     }
 
     
-    deleteResult := GoMovieDb{} //Use this to new slice to get our database without the movie who's id was entered
-
     
-        for _, v := range allMovies.Movies {
+    
+        for i, v := range allMovies.Movies {
           if v.Id == id {                   
-            continue                 
-          } else {                             
-            deleteResult.Movies = append(deleteResult.Movies, v)
+            allMovies.Movies = append(allMovies.Movies[:i], allMovies.Movies[i+1:]...)   
+            ourNewDb, err := json.MarshalIndent(&allMovies, "", " ")     
+             if err != nil {
+                log.Fatalln(err)
+             }
+            
+            err = ioutil.WriteFile(f.Filename, ourNewDb, 0644)
+               if err != nil {
+                   return err
+                }
+          }
+          
+        
+            
         }
-
-        }
-
-    ourNewDb, err := json.MarshalIndent(deleteResult, "", " ")
-    if err != nil {
-        log.Fatalln(err)
-    }
-
-    err = ioutil.WriteFile(f.Filename, ourNewDb, 0644)
-    if err != nil {
-        return err
-    }
-
     return nil 
-
 
 }
 
+
+//Method on our file that takes in the id and the movie from our slice
+//
+
 func (f TheFile) UpdateById(id string, movie entities.Movie) error {
-    file, err := ioutil.ReadFile(f.Filename)
+    file, err := ioutil.ReadFile(f.Filename) //we read the file and return it as a slice of bytes
     if err != nil {
         return err
     }
 
-    allMovies := GoMovieDb{}
+    allMovies := GoMovieDb{} //Create an instance of our movie struct so that we a Go object to unmarshal into
 
-    err = json.Unmarshal(file, &allMovies)
+    err = json.Unmarshal(file, &allMovies) //We unmarshal the file bytes into our movie struct 
     if err != nil {
         return err 
     }
 
     
-
+    //Now that we have all of the movies, we range over them and find the movie that matches the one passed in w/ line 166
+    //line 167- We delete the old movie from the db and then reset the fields of that movie
+    //to match the values of the passed in movie
+    //now that we have our updated movie, we return it back to the database
     for i, v := range allMovies.Movies {
         if v.Id == id {
             allMovies.Movies = append(allMovies.Movies[:i], allMovies.Movies[i+1:]...)
@@ -170,15 +173,17 @@ func (f TheFile) UpdateById(id string, movie entities.Movie) error {
         }
     }
     
+          
 
     
 
-
+    // We marshal our updated movie back to a json object
       ourUpdatedMovie, err := json.MarshalIndent(&allMovies, "", " ")
       if err != nil {
           return err 
       }
 
+      //we write our updated db to our json file 
       err = ioutil.WriteFile(f.Filename, ourUpdatedMovie, 0644)
       if err != nil {
           return err 

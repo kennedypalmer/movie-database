@@ -17,7 +17,7 @@ type MovieHandler struct {
 
 }
 
-
+//we will call this in main to 
 func NewMovieHandler(s service.Service) MovieHandler{
 	return MovieHandler{
 		PerformService : s, 

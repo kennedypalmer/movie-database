@@ -21,13 +21,13 @@ func main() {
 		log.Fatalln("File extension incorrect.")
 	}
 
-	r := repo.NewRepo(ourJsonFile)
+	repoLayer := repo.NewRepo(ourJsonFile)
 
-	svc := service.NewService(r)
+	serviceLayer := service.NewService(repoLayer)
 
-	hdlr := handlers.NewMovieHandler(svc)
+	handlersLayer:= handlers.NewMovieHandler(serviceLayer)
 
-	router := handlers.NewRouter(hdlr)
+	router := handlers.NewRouter(handlersLayer)
 
 	svr := &http.Server{
 		Addr:    "127.0.0.1:8080",
