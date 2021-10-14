@@ -2,17 +2,22 @@ package service
 
 import (
 "Downloads/MovieDbProj/entities"
-"Downloads/MovieDbProj/repo"
+
 )
 
-
+type Repository interface {
+    NewMovie(movie entities.Movie) error 
+    FindById(id string) (entities.Movie, error)
+    DeleteById(id string) error
+    UpdateById(id string, movie entities.Movie) error
+}
 
 type Service struct {
-	Repo repo.TheFile
+	Repo Repository 
 }
 
 
-func NewService(f repo.TheFile) Service {
+func NewService(f Repository) Service {
 	return Service{
 		Repo: f,
 	}
@@ -31,6 +36,8 @@ func (s Service) PostMovie(movie entities.Movie)  error {
 
 
 
+
+
 func (s Service) FindMovieById(id string) (entities.Movie, error) {
 	getMovie, err := s.Repo.FindById(id)
 	if err != nil {
@@ -44,6 +51,7 @@ func (s Service) FindMovieById(id string) (entities.Movie, error) {
 
 
 
+
 func (s Service) DeleteMovieById(id string) error {
 	 err := s.Repo.DeleteById(id)
 	if err != nil {
@@ -51,6 +59,9 @@ func (s Service) DeleteMovieById(id string) error {
 	}
   return nil 
 }
+
+
+
 
 func (s Service) UpdateMovieById(id string, movie entities.Movie) error {
 

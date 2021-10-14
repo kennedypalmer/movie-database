@@ -67,6 +67,22 @@
    "Rating": 8.5
   },
   {
+   "Id": "d7bedf8b-fd99-4fe1-adf1-1291aba57722",
+   "Title": "Candyman",
+   "Genre": [
+    "Horror"
+   ],
+   "Description": "The Candyman, a murderous soul with a hook for a hand, is accidentally summoned to reality by a skeptic grad student researching the monster's myth.",
+   "Director": "Bernard Rose",
+   "Actors": [
+    "Tony Todd",
+    "Virginia Madsen",
+    "Kassi Lemmons",
+    "Xander Berkelely"
+   ],
+   "Rating": 6.7
+  },
+  {
    "Id": "8f9e8722-3970-4c88-9123-99c435e67c2c",
    "Title": "Friday",
    "Genre": [

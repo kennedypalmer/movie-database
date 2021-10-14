@@ -2,23 +2,27 @@ package handlers
 
 import (
 	"Downloads/MovieDbProj/entities"
-	"Downloads/MovieDbProj/service"
 	"encoding/json"
 	"net/http"
 	"log"
-	//"fmt"
 	"github.com/gorilla/mux"
 
 )
 
-//Our MovieHandler struct will perform the service given to it by our service layer 
+type ServiceLayer interface {
+    PostMovie(movie entities.Movie) error 
+    FindMovieById(id string) (entities.Movie, error)
+    DeleteMovieById(id string) error
+    UpdateMovieById(id string, movie entities.Movie) error
+}
+
 type MovieHandler struct {
-	PerformService service.Service
+	PerformService ServiceLayer
 
 }
 
-//we will call this in main to 
-func NewMovieHandler(s service.Service) MovieHandler{
+
+func NewMovieHandler(s ServiceLayer) MovieHandler{
 	return MovieHandler{
 		PerformService : s, 
 	}
@@ -34,7 +38,7 @@ func (mvfile MovieHandler) PostNewMovie(w http.ResponseWriter, r *http.Request) 
 		log.Fatalln(err)
 	}
 
-	err = mvfile.PerformService.Repo.NewMovie(postResult)
+	err = mvfile.PerformService.PostMovie(postResult)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -48,20 +52,11 @@ func (mvfile MovieHandler) PostNewMovie(w http.ResponseWriter, r *http.Request) 
 }
 
 
-
-//A method on on our movie handler struct that will talk to our server and handle the request and our response
-//Our path contains a variable (the id) so we pass in the request (which will be our movie/"id") &
-//Set the key of that to "id" 
-//Line 68 accesses our movie handler --> accesses our service layer ---> accesses our FindById in our repo layer
-//And again returns the movie
-//Now that we have our movie we convert it back to a json object (line 75)
-//Lines 82-84 access our ResponseWriter and serves getMovie
-
 func (mvfile MovieHandler)GetMovieById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["Id"]
 
-	getResult, err := mvfile.PerformService.Repo.FindById(id)
+	getResult, err := mvfile.PerformService.FindMovieById(id)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -85,7 +80,7 @@ func (mvfile MovieHandler) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["Id"]
 
-	err := mvfile.PerformService.Repo.DeleteById(id)
+	err := mvfile.PerformService.DeleteMovieById(id)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -105,7 +100,6 @@ func (mvfile MovieHandler) PutUpdateMovie(w http.ResponseWriter, r *http.Request
 
 	movie := entities.Movie{}
 
-	//Unmarshal r.Body into movie and then pass what i've unmarshaled to UpdateById
     
 	err := json.NewDecoder(r.Body).Decode(&movie)
 	if err != nil {
@@ -113,7 +107,7 @@ func (mvfile MovieHandler) PutUpdateMovie(w http.ResponseWriter, r *http.Request
 	}
 	
 
-	err = mvfile.PerformService.Repo.UpdateById(id, movie)
+	err = mvfile.PerformService.UpdateMovieById(id, movie)
 	if err != nil {
 		log.Fatalln(err)
 	}
